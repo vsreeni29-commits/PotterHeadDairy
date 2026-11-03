@@ -6,8 +6,8 @@
   "analyticsMode": "off",
   "nativeSystemBars": {
     "mode": "inset",
-    "color": "#151816",
-    "iconStyle": "light"
+    "color": "#e9dcb8",
+    "iconStyle": "dark"
   },
   "resources": [
     "auth",
@@ -19,6 +19,7 @@
       "publicPath": "/_cdn/static/1d0f37b2-a062-47f6-b6ac-2c2415886c27-diary-icon.png"
     }
   ],
-  "nativeBuildStatus": "requires_publishing_setup",
-  "runtime": "Floot"
+  "nativeBuildStatus": "rebuild_required_for_full_screen_layout",
+  "runtime": "Floot",
+  "webUrl": "https://potter-diary.floot.app"
 }

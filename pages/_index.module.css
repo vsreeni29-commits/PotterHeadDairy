@@ -217,3 +217,10 @@
  .fullScreen .smallButton{width:40px;min-width:40px;font-size:0!important;padding:0!important;justify-content:center}
  .fullScreen .smallButton svg{display:block;width:16px;height:16px;margin:0}
 }
+
+/* Keep the writing actions clear of platform attribution and phone insets. */
+.fullScreen .main{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
+@media(max-height:400px){
+ .fullScreen .closedPage>svg,.fullScreen .closedPage>p{display:none}
+ .fullScreen .closedPage{padding:0;gap:0}
+}
