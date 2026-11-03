@@ -1,0 +1,24 @@
+{
+  "projectId": "e3f29e1a-af28-4068-a58d-30ca5918f420",
+  "title": "Potterhead Diary",
+  "description": "An encrypted parchment diary with vanishing ink and your Inner Council.",
+  "mobileAppId": "com.sreeni.potterheaddiary",
+  "analyticsMode": "off",
+  "nativeSystemBars": {
+    "mode": "inset",
+    "color": "#151816",
+    "iconStyle": "light"
+  },
+  "resources": [
+    "auth",
+    "database"
+  ],
+  "assets": [
+    {
+      "source": "assets/diary-icon.png",
+      "publicPath": "/_cdn/static/1d0f37b2-a062-47f6-b6ac-2c2415886c27-diary-icon.png"
+    }
+  ],
+  "nativeBuildStatus": "requires_publishing_setup",
+  "runtime": "Floot"
+}

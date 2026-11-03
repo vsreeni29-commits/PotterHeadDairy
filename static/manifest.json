@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "Potterhead Diary",
+  "short_name": "Potterhead",
+  "description": "A private parchment diary and Inner Council.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#151816",
+  "theme_color": "#151816",
+  "icons": [
+    {
+      "src": "/_cdn/static/1d0f37b2-a062-47f6-b6ac-2c2415886c27-diary-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
