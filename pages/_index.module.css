@@ -128,3 +128,92 @@
  .absorbedCount{font-size:7px}.previewInput{font-size:23px!important}
 }
 @media(prefers-reduced-motion:reduce){.absorbing{opacity:0!important}.spin{animation:none!important}}
+
+/* The diary opens as a single parchment that fills the available screen. */
+.fullScreen{position:fixed;inset:0;width:100%;height:var(--diary-viewport-height,100dvh);min-height:0;overflow:hidden;display:block;color:var(--paper-ink);background-color:var(--paper);background-image:radial-gradient(ellipse at 10% 70%,#a98b4c19,transparent 50%),radial-gradient(ellipse at 90% 20%,#a98b4c19,transparent 55%),repeating-linear-gradient(3deg,#60452004 0px,#60452004 1px,transparent 1px,transparent 4px)}
+.fullScreen .workspace{width:100%;height:100%;margin:0;display:flex;flex-direction:column;min-height:0}
+.fullScreen .rail{position:absolute;inset:6px auto auto 10px;z-index:20;width:auto;height:44px;padding:0;display:flex;flex-direction:row;border:0;background:transparent;gap:0}
+.fullScreen .mark{display:none}
+.fullScreen .railLinks{flex-direction:row;margin:0;gap:0}
+.fullScreen .railLinks button,.fullScreen .railBottom{width:44px;height:44px;color:var(--paper-muted)!important;flex-shrink:0}
+.fullScreen .railLinks .activeNav{background:#79643e0d;border:1px solid #8c78512b;color:var(--paper-ink)!important}
+.fullScreen .railBottom{margin:0}
+.fullScreen .header{height:56px;min-height:56px;padding:0 12px;justify-content:flex-end;border:0;background:transparent}
+.fullScreen .wordmark,.fullScreen .headerRight>span{display:none}
+.fullScreen .headerRight{gap:0}
+.fullScreen .smallButton{height:36px!important;min-height:36px!important;padding:0 11px!important;font-size:10px!important;color:var(--paper-ink)!important;background:#79643e08!important;border-color:#8c78514a!important}
+.fullScreen .smallButton svg{display:block}
+.fullScreen .main{display:flex;flex:1;flex-direction:column;min-height:0;width:100%;max-width:none;height:auto;margin:0;padding:0 clamp(18px,4vw,64px) max(12px,env(safe-area-inset-bottom,0px));overflow:hidden}
+.fullScreen .deskToolbar{flex-shrink:0;min-height:32px;margin:0 0 6px;gap:12px}
+.fullScreen .date{display:block;min-width:0;flex:1;font-size:14px;color:var(--paper-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fullScreen .date span{display:inline;margin:0 6px;color:#99845c}
+.fullScreen .toolGroup{flex-shrink:0;gap:9px}
+.fullScreen .modeSelect{width:108px!important;min-height:30px!important;height:30px!important;font-size:11px!important;color:var(--paper-ink)!important;border-color:#8c78514a!important;background:#79643e05!important}
+.fullScreen .revealButton{color:var(--paper-muted)!important}
+.fullScreen .privateLabel{color:var(--paper-muted);font-size:9px;gap:5px}
+.fullScreen .mobileTabs{display:flex;flex-shrink:0;align-self:center;width:min(100%,280px);height:34px;gap:8px;margin:0 0 10px;border:0}
+.fullScreen .mobileTabs button{flex:1;height:34px;margin:0;padding:0 8px;font-size:11px;color:var(--paper-muted);border:0;border-bottom:1px solid transparent;border-radius:0;background:transparent}
+.fullScreen .mobileTabs button[aria-pressed="true"]{color:var(--paper-ink);border-bottom-color:#79643e66}
+.fullScreen .book{display:flex;flex:1;flex-direction:column;min-height:0;width:100%;height:auto;border:0;border-radius:0;background:transparent;box-shadow:none}
+.fullScreen .pageLeft,.fullScreen .pageRight{flex:1;width:100%;min-height:0;padding:clamp(8px,2dvh,20px) 0 8px;border-radius:0;background:transparent;box-shadow:none}
+.fullScreen .pageLeft{display:flex}
+.fullScreen .pageRight,.fullScreen .binding,.fullScreen .pageTop,.fullScreen .paperFooter{display:none}
+.fullScreen .showCouncil .pageLeft{display:none}
+.fullScreen .showCouncil .pageRight{display:flex;min-height:0;padding:clamp(8px,2dvh,20px) 0 8px;border-radius:0}
+.fullScreen .writingArea{display:flex;flex:1;flex-direction:column;min-height:0;padding-top:0}
+.fullScreen .salutation{flex-shrink:0;font-family:var(--font-family-cursive);font-size:clamp(36px,4vw,50px);line-height:1.15;font-weight:500;color:#655334;margin:0 0 16px}
+.fullScreen .inkWell{display:flex;flex:1;min-height:0}
+.fullScreen .inkInput{flex:1;align-self:stretch;height:100%!important;min-height:0!important;font-size:clamp(29px,3vw,38px)!important;line-height:1.6!important;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#9c865b55 transparent}
+.fullScreen .absorbing{font-size:clamp(29px,3vw,38px);line-height:1.6;max-height:100%;overflow:hidden}
+.fullScreen .absorbedCount{flex-shrink:0;margin:5px 0 0;font-size:10px}
+.fullScreen .absorbedCount button{height:30px;font-size:11px}
+.fullScreen .closedPage{flex:1;min-height:0;padding:12px 0}
+.fullScreen .closedPage>p{font-size:clamp(26px,3vw,34px)}
+.fullScreen .reflectionScroll{min-height:0;max-height:none;flex:1;margin:0;padding-right:8px;overflow-y:auto}
+.fullScreen .waiting{min-height:0;padding:12px 0}
+.fullScreen .belowBook{flex-shrink:0;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 0;border-top:1px solid var(--paper-line)}
+.fullScreen .belowBook>p{color:var(--paper-muted);font-size:10px}
+.fullScreen .inkDot{background:#8b764b;box-shadow:none}
+.fullScreen .actions{display:flex;gap:10px}
+.fullScreen .actions button{min-height:44px;font-size:12px;padding:0 20px}
+.fullScreen .actions button:first-child{background:#79643e05;border-color:#8c785155;color:var(--paper-ink)}
+.fullScreen .actions button:last-child{background:#403826;border-color:#403826;color:#f1e7cf;box-shadow:none}
+.fullScreen .errorBanner{flex-shrink:0;max-height:25%;overflow-y:auto;margin:5px 0;color:#713c2f;background:#98654b12;border-color:#98654b40}
+.fullScreen .contextNotice{flex-shrink:0;margin:4px 0 0;color:var(--paper-muted)}
+.fullScreen .contextNotice button{color:var(--paper-ink)}
+.fullScreen .footer{display:none}
+@media(max-width:650px){
+ .fullScreen .main{padding:0 20px max(10px,env(safe-area-inset-bottom,0px))}
+ .fullScreen .privateLabel{font-size:0;gap:0}
+ .fullScreen .deskToolbar{margin-bottom:4px}
+ .fullScreen .date{font-size:13px}
+ .fullScreen .toolGroup{gap:5px}
+ .fullScreen .modeSelect{width:94px!important;font-size:10px!important}
+ .fullScreen .mobileTabs{width:240px;height:30px;margin-bottom:5px}
+ .fullScreen .mobileTabs button{height:30px;font-size:10px}
+ .fullScreen .salutation{font-size:38px;margin-bottom:12px}
+ .fullScreen .inkInput{font-size:30px!important}
+ .fullScreen .absorbing{font-size:30px}
+ .fullScreen .belowBook{flex-direction:column;align-items:stretch;gap:7px;padding-top:9px}
+ .fullScreen .belowBook>p{justify-content:center;font-size:9px}
+ .fullScreen .actions{display:grid;grid-template-columns:1fr 1.6fr;gap:8px}
+ .fullScreen .actions button{min-height:44px;padding:0 10px;font-size:11px}
+ .fullScreen .absorbedCount{font-size:8px}
+}
+@media(max-height:500px){
+ .fullScreen .header{height:48px;min-height:48px}
+ .fullScreen .rail{top:2px}
+ .fullScreen .deskToolbar,.fullScreen .belowBook>p{display:none}
+ .fullScreen .mobileTabs{height:28px;margin-bottom:0}
+ .fullScreen .mobileTabs button{height:28px}
+ .fullScreen .pageLeft,.fullScreen .showCouncil .pageRight{padding-top:4px}
+ .fullScreen .salutation{font-size:30px;margin-bottom:6px}
+ .fullScreen .inkInput{font-size:27px!important}
+ .fullScreen .absorbing{font-size:27px}
+ .fullScreen .belowBook{padding-top:6px}
+}
+
+@media(max-width:350px){
+ .fullScreen .smallButton{width:40px;min-width:40px;font-size:0!important;padding:0!important;justify-content:center}
+ .fullScreen .smallButton svg{display:block;width:16px;height:16px;margin:0}
+}

@@ -1,7 +1,7 @@
 import React,{useEffect,useRef,useState} from "react";
 import {Helmet} from "react-helmet";
 import {useNavigate} from "react-router-dom";
-import {BookOpen,Feather,LockKeyhole,Archive,ShieldCheck,ArrowUpRight,Moon,KeyRound,Eye,Plus,Settings2,LogOut,ChevronLeft,ChevronRight,LoaderCircle,Download} from "lucide-react";
+import {BookOpen,Feather,LockKeyhole,Archive,ShieldCheck,ArrowUpRight,KeyRound,Eye,Plus,Settings2,LogOut,ChevronLeft,ChevronRight,LoaderCircle,Download} from "lucide-react";
 import {Button} from "../components/Button";
 import {Textarea} from "../components/Textarea";
 import {Dialog,DialogContent,DialogTitle,DialogDescription} from "../components/Dialog";
@@ -28,6 +28,13 @@ export default function Diary(){
  const [vanish,setVanish]=useState(true),[reduced,setReduced]=useState(()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches);
  const [mobilePage,setMobilePage]=useState<"write"|"council">("write");
  const [working,setWorking]=useState(false);
+ const [viewportHeight,setViewportHeight]=useState(()=>window.visualViewport?.height??window.innerHeight);
+ useEffect(()=>{
+  const updateViewport=()=>setViewportHeight(window.visualViewport?.height??window.innerHeight);
+  window.visualViewport?.addEventListener("resize",updateViewport);
+  window.addEventListener("resize",updateViewport);
+  return()=>{window.visualViewport?.removeEventListener("resize",updateViewport);window.removeEventListener("resize",updateViewport);};
+ },[]);
  const text=d.state.payload.text,report=d.state.payload.report;
  const pending=text.slice(absorbed);
  const lastId=useRef(d.state.id),hadKey=useRef(false);
@@ -66,22 +73,22 @@ export default function Diary(){
   const url=URL.createObjectURL(new Blob([bytes],{type:"application/json"}));
   const a=document.createElement("a");a.href=url;a.download="potterhead-sealed-page.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
  };
- return <div className={styles.app}>
+ return <div className={styles.app+" "+styles.fullScreen} style={{"--diary-viewport-height":viewportHeight+"px"} as React.CSSProperties}>
  <Helmet><title>Potterhead Diary · Between you and the page</title><meta name="description" content="A quiet encrypted diary. Let the ink settle, and your Inner Council speak."/><meta name="theme-color" content="#151816"/><link rel="manifest" href="/manifest.json"/></Helmet>
- <aside className={styles.rail}>
+ <nav className={styles.rail} aria-label="Diary navigation">
  <a href="/" className={styles.mark} aria-label="Potterhead Diary"><Feather size={27}/></a>
- <div className={styles.railLinks}><Button variant="ghost" size="icon" className={styles.activeNav} aria-label="Write" onClick={()=>setMobilePage("write")}><BookOpen size={21}/></Button><Button variant="ghost" size="icon" aria-label="Sealed entries" onClick={()=>{if(d.key)setArchiveOpen(true);else requireOpen();}}><Archive size={20}/></Button><Button variant="ghost" size="icon" aria-label="New diary page" disabled={d.busy||working} onClick={()=>{if(d.key)void run(async()=>{await d.newPage();setMobilePage("write");});else requireOpen();}}><Plus size={20}/></Button></div>
+ <div className={styles.railLinks}><Button variant="ghost" size="icon" className={mobilePage==="write"?styles.activeNav:""} aria-label="Write" onClick={()=>setMobilePage("write")}><BookOpen size={21}/></Button><Button variant="ghost" size="icon" aria-label="Sealed entries" onClick={()=>{if(d.key)setArchiveOpen(true);else requireOpen();}}><Archive size={20}/></Button><Button variant="ghost" size="icon" aria-label="New diary page" disabled={d.busy||working} onClick={()=>{if(d.key)void run(async()=>{await d.newPage();setMobilePage("write");});else requireOpen();}}><Plus size={20}/></Button></div>
  <Button variant="ghost" size="icon" aria-label="Diary settings" className={styles.railBottom} onClick={()=>{if(d.key)setSettingsOpen(true);else requireOpen();}}><Settings2 size={20}/></Button>
- </aside>
+ </nav>
  <div className={styles.workspace}>
- <header className={styles.header}><a className={styles.wordmark} href="/">POTTERHEAD <span>DIARY</span></a><div className={styles.headerRight}><span><span className={styles.statusDot}/>{d.key?"A space of your own":"Between you & the page"}</span><Button variant="outline" className={styles.smallButton} disabled={d.authState.type==="loading"||d.vault.isFetching} onClick={()=>d.key?d.lock():requireOpen()}><LockKeyhole size={13}/>{d.key?"Seal diary":d.authState.type==="loading"?"Opening…":"Open your diary"}</Button></div></header>
+ <header className={styles.header}><a className={styles.wordmark} href="/">POTTERHEAD <span>DIARY</span></a><div className={styles.headerRight}><span><span className={styles.statusDot}/>{d.key?"A space of your own":"Between you & the page"}</span><Button variant="outline" className={styles.smallButton} aria-label={d.key?"Seal diary":"Open your diary"} disabled={d.authState.type==="loading"||d.vault.isFetching} onClick={()=>d.key?d.lock():requireOpen()}><LockKeyhole size={13}/>{d.key?"Seal diary":d.authState.type==="loading"?"Opening…":"Open your diary"}</Button></div></header>
  <main className={styles.main}>
- <div className={styles.intro}><p className={styles.eyebrow}><Moon size={13}/>{name}</p><h1>Let the page hold it.</h1><p>Some things are easier to understand once you put them into words.</p></div>
- <div className={styles.deskToolbar}><div className={styles.date}>{date}<span> · </span>{d.state.revision?"Your private page":"A fresh page"}</div><div className={styles.toolGroup}>{d.key&&<Select value={d.state.payload.mode} onValueChange={v=>d.setMode(v as DiaryState["payload"]["mode"])} disabled={d.busy}><SelectTrigger className={styles.modeSelect} aria-label="Reflection mode"><SelectValue/></SelectTrigger><SelectContent>{DiaryModel.modes.map(m=><SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select>}{d.key&&text&&<Button variant="ghost" size="icon-sm" className={styles.revealButton} aria-label="Reveal or edit your words" onClick={()=>reveal()} disabled={d.busy}><Eye size={15}/></Button>}<span className={styles.privateLabel}><ShieldCheck size={13}/> Encrypted. Yours.</span></div></div>
- <div className={styles.mobileTabs}><Button variant={mobilePage==="write"?"secondary":"ghost"} onClick={()=>setMobilePage("write")}>Your words</Button><Button variant={mobilePage==="council"?"secondary":"ghost"} onClick={()=>setMobilePage("council")}>Inner Council{report?" · 1":""}</Button></div>
+ 
+ <div className={styles.deskToolbar}><div className={styles.date}>{date}<span> · </span>{d.key?name:"A fresh page"}</div><div className={styles.toolGroup}>{d.key&&<Select value={d.state.payload.mode} onValueChange={v=>d.setMode(v as DiaryState["payload"]["mode"])} disabled={d.busy}><SelectTrigger className={styles.modeSelect} aria-label="Reflection mode"><SelectValue/></SelectTrigger><SelectContent>{DiaryModel.modes.map(m=><SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select>}{d.key&&text&&<Button variant="ghost" size="icon-sm" className={styles.revealButton} aria-label="Reveal or edit your words" onClick={()=>reveal()} disabled={d.busy}><Eye size={15}/></Button>}<span className={styles.privateLabel}><ShieldCheck size={13}/> Encrypted. Yours.</span></div></div>
+ <div className={styles.mobileTabs}><Button variant={mobilePage==="write"?"secondary":"ghost"} aria-pressed={mobilePage==="write"} onClick={()=>setMobilePage("write")}>Your words</Button><Button variant={mobilePage==="council"?"secondary":"ghost"} aria-pressed={mobilePage==="council"} onClick={()=>setMobilePage("council")}>Inner Council{report?" · 1":""}</Button></div>
  <section className={styles.book+" "+(mobilePage==="council"?styles.showCouncil:"")} aria-label="Your diary">
  <div className={styles.pageLeft}><div className={styles.pageTop}><span>THE WORDS YOU CARRY</span><Feather size={15}/></div><div className={styles.writingArea}>
- {d.key?<><p className={styles.salutation}>Dear diary,</p><div className={styles.inkWell}>{ghost&&<p className={styles.absorbing} aria-hidden="true" key={absorbed}>{ghost}</p>}<Textarea className={styles.inkInput} variant="clear" disableResize value={pending} onChange={e=>d.edit(text.slice(0,absorbed)+e.target.value)} onCompositionStart={()=>setComposing(true)} onCompositionEnd={()=>setComposing(false)} placeholder={absorbed?"And then…":"Begin wherever you are…"} aria-label="Write in your diary" maxLength={18000-absorbed} disabled={d.busy} spellCheck={false}/></div>{absorbed>0&&<div className={styles.absorbedCount}><span>{text.trim().split(/\s+/).filter(Boolean).length} words held by the page</span><Button variant="ghost" size="sm" onClick={()=>reveal()} disabled={d.busy}>Reveal <Eye size={12}/></Button></div>}</>:<div className={styles.closedPage}><KeyRound size={25}/><p>A page for your eyes only.</p><Button variant="ghost" className={styles.paperButton} onClick={requireOpen}>Open your diary <ArrowUpRight size={13}/></Button></div>}
+ <h1 className={styles.salutation}>Dear diary,</h1>{d.key?<><div className={styles.inkWell}>{ghost&&<p className={styles.absorbing} aria-hidden="true" key={absorbed}>{ghost}</p>}<Textarea className={styles.inkInput} variant="clear" disableResize value={pending} onChange={e=>d.edit(text.slice(0,absorbed)+e.target.value)} onCompositionStart={()=>setComposing(true)} onCompositionEnd={()=>setComposing(false)} placeholder={absorbed?"And then…":"Begin wherever you are…"} aria-label="Write in your diary" maxLength={18000-absorbed} disabled={d.busy} spellCheck={false}/></div>{absorbed>0&&<div className={styles.absorbedCount}><span>{text.trim().split(/\s+/).filter(Boolean).length} words held by the page</span><Button variant="ghost" size="sm" onClick={()=>reveal()} disabled={d.busy}>Reveal <Eye size={12}/></Button></div>}</>:<div className={styles.closedPage}><KeyRound size={25}/><p>A page for your eyes only.</p><Button variant="ghost" className={styles.paperButton} onClick={requireOpen}>Open your diary <ArrowUpRight size={13}/></Button></div>}
  </div><div className={styles.paperFooter}><span>Write. Release. Reflect.</span><span>01</span></div></div>
  <div className={styles.binding} aria-hidden="true"/>
  <div className={styles.pageRight}><div className={styles.pageTop}><span>THE VOICES WITHIN</span><span className={styles.tinyStar}>✧</span></div>
